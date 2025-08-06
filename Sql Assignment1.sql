@@ -1,5 +1,5 @@
-create database office;
-use office;
+create database Emp;
+use Emp;
 create table employee(emp_id int,emp_name varchar(20),city varchar(15), age int,salary int,emp_dept varchar(20),joining_date date,performance_score smallint,emp_statisfaction_score smallint,emp_warning smallint);
 insert into employee values(101,'Neha Rikame','Pune',22,80000,'Data Analyst','2025-06-30',9,8,0),
 (102,'Mohini Argade','Mumbai',23,75000,'Research Analyst','2024-05-18',7,7,1),
@@ -50,8 +50,9 @@ insert into employee values(101,'Neha Rikame','Pune',22,80000,'Data Analyst','20
 (147,'Ankita Patil','Pune',22,79000,'Junior Analyst','2019-03-21',6,4,3),
 (148,'Priyanka Chopra','Mumbai',20,70000,'Research Analyst','2014-08-30',8,9,0),
 (149,'Sneha Patil','Dhule',29,85000,'CPP','2020-02-20',8,6,1),
-(150,'sonalika Patil','Pune',20,78000,'Senior Analyst','2014-08-30',6,4,3)
+(150,'sonalika Patil','Pune',20,78000,'Senior Analyst','2014-08-30',6,4,3);
 select * from employee;
+SET SQL_SAFE_UPDATES=0;
 delete from employee where emp_name = 'Neha';
 select * from employee;
 
@@ -65,7 +66,7 @@ insert into employee values(151,'Shreya Ghoshal','Mumbai',40,95000,'Marketing','
 (157,'Ankita Patil','Mumbai',29,79000,'HR','2020-02-22',6,4,3),
 (158,'Priyanka Wagh','Jalna',22,75000,'Project Manager','2015-09-30',9,9,0),
 (159,'Sneha Patil','Dhule',27,85000,'IT','2020-02-20',8,7,1),
-(160,'sonalika wagh','Mumbai',22,75000,'Operation','2021-05-15',8,8,0)
+(160,'sonalika wagh','Mumbai',22,75000,'Operation','2021-05-15',8,8,0);
 select * from employee;
 
 -- 2.update the salary of all employees in department "IT" by 10%
@@ -152,6 +153,22 @@ select * from Staff where emp_warning = 2 or emp_warning = 3;
 
 -- employee warning is 3
 select * from Staff where emp_warning = 3;
-    
   
-  
+ -- create a group of department 
+SELECT emp_dept from Staff group by emp_dept;
+
+-- Order by 
+SELECT emp_name FROM Staff ORDER BY emp_name ASC; -- it sort the name in ascending order
+
+-- Having clause
+SELECT emp_dept,avg(salary) from Staff GROUP BY emp_dept HAVING emp_dept = 'IT';
+
+ SELECT emp_dept FROM Staff ORDER BY joining_date DESC;
+ 
+ -- Distinct to get unique values 
+ SELECT DISTINCT city FROM Staff;
+ 
+ -- Between
+ SELECT age FROM Staff WHERE age BETWEEN 23 and 29;
+ 
+ 
