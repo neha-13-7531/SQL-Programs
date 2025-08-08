@@ -126,4 +126,16 @@ SELECT * FROM  Product WHERE price BETWEEN 200 and 800;
 -- Use ORDER BY to list products by ascending stock value.
 SELECT * FROM Product ORDER BY stock ASC;
 
+-- List the top 5 customers based on order count using ORDER BY and LIMIT.
+SELECT customer_id,COUNT(*) AS order_count FROM Orders GROUP BY customer_id ORDER BY order_count DESC LIMIT 5;
+
+-- Group orders by product_id and show the total quantity ordered per product.
+SELECT product_id,SUM(quantity) AS total_quantity FROM Orders GROUP BY product_id;
+
+-- Use GROUP BY and HAVING to find customers with more than 2 orders.
+SELECT customer_id,COUNT(*) AS order_count FROM Orders GROUP BY customer_id HAVING COUNT(*) > 2;
+
+-- Display the most frequently ordered product using GROUP BY and ORDER BY.
+SELECT product_id,SUM(quantity) AS total_quantity FROM Orders GROUP BY product_id ORDER BY total_quantity DESC LIMIT 1;
+
 
