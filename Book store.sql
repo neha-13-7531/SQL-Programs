@@ -138,16 +138,16 @@ UPDATE Orderss SET quantity = 4 WHERE order_id = 201;
 DELETE FROM Book WHERE book_id = 21;
 
 -- Write a SQL query to retrieve the total number of books in the Books table.
-
+SELECT COUNT(*) AS total_book FROM Book;
 
 -- Write a SQL query to retrieve the average price of books in the Books table.
-
+SELECT AVG(price)  FROM Book;
 
 -- Write a SQL query to retrieve the maximum quantity of orders in the Orders table. 
-
+SELECT MAX(quantity) FROM Orderss;
 
 -- Write a SQL query to retrieve the minimum publication date of books in the Books table.
-
+SELECT MIN(publication_date) FROM Book;
 
 --  Write a GRANT statement to grant SELECT privilege to bookstore_user on the Orders table. 
 CREATE user bookstore_user identified by 'book1234';
