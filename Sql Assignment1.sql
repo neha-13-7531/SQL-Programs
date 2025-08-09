@@ -1,5 +1,5 @@
 create database Emp;
-use Emp;
+use Emp; 
 create table employee(emp_id int,emp_name varchar(20),city varchar(15), age int,salary int,emp_dept varchar(20),joining_date date,performance_score smallint,emp_statisfaction_score smallint,emp_warning smallint);
 insert into employee values(101,'Neha Rikame','Pune',22,80000,'Data Analyst','2025-06-30',9,8,0),
 (102,'Mohini Argade','Mumbai',23,75000,'Research Analyst','2024-05-18',7,7,1),
@@ -170,5 +170,111 @@ SELECT emp_dept,avg(salary) from Staff GROUP BY emp_dept HAVING emp_dept = 'IT';
  
  -- Between
  SELECT age FROM Staff WHERE age BETWEEN 23 and 29;
- 
- 
+
+ ### Section 1: select and distinct
+-- 1.Display all unique cities from the employee table.
+SELECT DISTINCT city FROM Staff;
+
+-- 2.Show distinct department names in the company.
+SELECT DISTINCT emp_dept FROM Staff;
+
+### Section 2: ORDER BY
+-- 1.List all employees ordered by their salary in descending order.
+SELECT * FROM Staff ORDER BY salary DESC;
+
+-- 2.Display employees sorted by age (youngest first) and then by name alphabetically.
+SELECT * FROM Staff ORDER BY age ASC, emp_name ASC;
+
+-- 3.Show employees with the highest satisfaction scores first.
+SELECT * FROM Staff ORDER BY emp_statisfaction_score DESC;
+
+### Section 3: LIMIT
+-- 1.Display the top 5 highest paid employees.
+SELECT * FROM Staff ORDER BY salary DESC LIMIT 5;
+
+-- 2.Show the 3 oldest employees in the company.
+SELECT * FROM Staff ORDER BY age DESC LIMIT 3;
+
+-- 3.List the 10 employees with the lowest performance scores.
+SELECT * FROM Staff ORDER BY performance_score ASC LIMIT 10;
+
+### Section 4: Basic Aggreagate
+-- 1.What is the average salary in the company?
+SELECT AVG(salary) FROM Staff;
+
+-- 2.Find the total number of employees in each city.
+SELECT city, COUNT(*)  FROM Staff GROUP BY city;
+
+-- 3.Calculate the maximum and minimum age of employees.
+SELECT MIN(age) FROM Staff;
+SELECT MAX(age) FROM Staff;
+
+-- 4.What is the average satisfaction score for the entire company?
+SELECT AVG(emp_statisfaction_score) FROM Staff;
+
+### Section 5: Group by
+-- 1.Show the average salary by department.
+SELECT emp_dept, AVG(salary) FROM Staff GROUP BY emp_dept;
+
+-- 2.Calculate the number of employees in each age group (20-30, 31-40, 41-50, 51+).
+
+
+-- 3.Find the maximum performance score in each city.
+SELECT city, MAX(performance_score) FROM Staff GROUP BY city;
+
+-- 4.Display the average satisfaction score by department.
+SELECT emp_dept, AVG(emp_statisfaction_score) FROM Staff GROUP BY emp_dept;
+
+### Section 6: Having
+-- 1.List departments that have an average salary greater than 75,000.
+SELECT emp_dept, AVG(salary) FROM Staff GROUP BY emp_dept HAVING AVG(salary) > 75000;
+
+-- 2.Show cities with more than 10 employees.
+SELECT city, COUNT(*)  FROM Staff GROUP BY city HAVING COUNT(*) > 10;
+
+-- 3.Find departments where the minimum performance score is below 5
+SELECT emp_dept, MIN(performance_score) FROM Staff GROUP BY emp_dept HAVING MIN(performance_score) < 5;
+
+-- 4.Display age groups that have an average satisfaction score above 7.
+
+
+
+## Section 7: combination of clauses
+-- 1.Show the top 3 departments with the highest average salaries (order results).
+SELECT emp_dept, AVG(salary) FROM Staff GROUP BY emp_dept ORDER BY AVG(salary) DESC LIMIT 3;
+
+-- 2.List cities with average employee age below 35 and more than 5 employees.
+SELECT city, AVG(age) , COUNT(*) FROM Staff GROUP BY city HAVING AVG(age) < 35 AND COUNT(*) > 5;
+
+-- 3.Find departments where the maximum salary is over 100,000 and display them in descending order of maximum salary.
+SELECT emp_dept, MAX(salary) FROM Staff GROUP BY emp_dept HAVING MAX(salary) > 100000 ORDER BY MAX(salary) DESC;
+
+-- 4.Display the 5 departments with the lowest attrition rates (highest retention)(attrtion score = 1).
+
+
+-- 5.Calculate the average salary difference between employees with warnings and without warnings.
+SELECT emp_warning,AVG(salary) FROM Staff GROUP BY emp_warning;
+
+-- 6.Show departments where the average performance score is higher than the company average.
+
+
+-- 7.List employees who are in the top 10% salary bracket in their department.
+
+-- 8.Find cities where the average satisfaction score is higher than the department average.
+
+
+### Section 8: Queries on Real-world Problems
+-- 1.HR wants to identify departments with high attrition (above 10%) (dept where employee attrition is 1 for more than 10% )and low satisfaction (below 5) for intervention.
+
+
+
+-- 2.Management wants to see which cities have both high performance (average >8) and high salaries (average >80k).
+SELECT city FROM Staff GROUP BY city HAVING AVG(performance_score) > 8 AND AVG(salary) > 80000;
+
+
+-- 3.Find employees who might be at risk of leaving (high salary, low satisfaction, and average performance).
+
+
+
+-- 4.identify departments that have both young employees (average age <30) and high performance (average >80).
+SELECT emp_dept FROM Staff GROUP BY emp_dept HAVING AVG(age) < 30 AND AVG(performance_score) > 80;
