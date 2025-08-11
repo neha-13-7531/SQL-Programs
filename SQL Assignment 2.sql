@@ -1,27 +1,28 @@
 create database college;
 use college;
 -- create table student
-create table Students(stud_id int,stud_name varchar(20),department varchar(20),admission_year year);
-create table Course(course_id int,course_name varchar(20),department varchar(20),credit int);
-create table Enrollments(enrollment_id int,student_id int,course_id int,semester smallint);
-create table Faculty(faculty_id int,faculty_name varchar(20),department varchar(20),subject_handle varchar(20));
+create table stude(stud_id int primary key,stud_name varchar(20)not null ,department varchar(20)not null,admission_year year);
+create table coursess(course_id int primary key,course_name varchar(20) not null,department varchar(20) not null,credit int check(credit > 0));
+create table Enroll(enrollment_id int primary key,stud_id int,course_id int,semester smallint,foreign key(stud_id) references stude(stud_id),
+                           foreign key(course_id)references coursess(course_id));
+create table Facultyss(faculty_id int primary key,faculty_name varchar(20) not null,department varchar(20)not null,subject_handle varchar(20));
 
 -- insert values in student table
-insert into Students values(1,'Neha Rikame','Data Analyst','2021'),
+insert into stude values(1,'Neha Rikame','Data Analyst','2021'),
                           (2,'Mohini Argde','Computer Science','2024'),
                           (3,'Khushi Chaursia','Electronic','2022'),
                           (4,'Sneha Patil','Maths','2025'),
                           (5,'Rakshita Patil','Physics','2020');
                           
 -- insert values in Course table
-insert into Course values(101,'Data Science','MSC',7),
+insert into coursess values(101,'Data Science','MSC',7),
                          (102,'Dot Net','BCA',8),
                          (103,'Software Developer','Btech',9),
                          (104,'Web development','BCS',6),
                          (105,'Python developer','BCA',9);
                          
 -- insert values in faculty table
-insert into Faculty values(201,'Neha Jadhv','Data Science','Machine learning'),
+insert into Facultyss values(201,'Neha Jadhv','Data Science','Machine learning'),
                           (202,'Pallavi joshi','Data Analyst','SQL'),
                           (203,'sakshi pawar','Computer Science','PHP'),
                           (204,'Ashwini more','Math','Statistics'),
@@ -29,7 +30,7 @@ insert into Faculty values(201,'Neha Jadhv','Data Science','Machine learning'),
 					
 -- Update the department of a student.
 SET SQL_SAFE_UPDATES = 0;
-update Students set department = 'Computer Application' where stud_id = 3;   
+update stude set department = 'Computer Application' where stud_id = 3;   
                  
 -- . Delete a course from the Courses table.
 DELETE FROM course WHERE course_name = 'Data Science';
@@ -38,21 +39,21 @@ DELETE FROM course WHERE course_name = 'Data Science';
 update Faculty set subject_handle = 'SQL' where faculty_id = 202; 
 
 -- create table enrollments.
-insert into Enrollments values(1001,1,101,3),(1002,2,102,2),(1003,3,103,4),(1004,4,104,1),(1005,5,105,3);
+insert into Enroll values(1001,1,101,3),(1002,2,102,2),(1003,3,103,4),(1004,4,104,1),(1005,5,105,3);
                        
 -- Insert a new enrollment record for a student in a course.
-insert into Enrollments values(1006,3,103,2); 
+insert into Enroll values(1006,3,103,2); 
 
 -- Create a user college_user and grant them INSERT and UPDATE permissions on the Students and Enrollments tables.
-create user college_user identified by 'sneha1234';  -- create user collage_user
+create user college_users identified by 'sneha12345';  -- create user collage_user
 
 -- grant them insert and update permission on the student and enrollments table.
-grant insert , update on Students to college_user; -- grant permission on student
-grant insert , update on Enrollments to college_user ;
-select * from Students;
+grant insert , update on stude to college_users; -- grant permission on student
+grant insert , update on Enroll to college_users ;
+select * from stude;
 
 -- Revoke UPDATE permission from college_user for the Enrollments table.
-revoke update on Enrollments from college_user;
+revoke update on Enroll from college_users;
 
 ## TCL(Transaction control language)
 -- Begin a transaction to simulate this:
@@ -61,8 +62,8 @@ revoke update on Enrollments from college_user;
 -- Commit the transaction.
 
 start transaction;
-insert into Students values(7,'Anuja','Data Science','2023');
-insert into Enrollments values(7,7,5,2);
+insert into stude values(7,'Anuja','Data Science','2023');
+insert into Enroll values(7,7,5,2);
 commit;
 
 -- Begin a transaction 
@@ -72,8 +73,8 @@ commit;
 
 
 start transaction;
-insert into Course values(6,'DA','Data Science',7);
-delete from Faculty where faculty_name = 'sakshi pawar' and department='Computer Science';
+insert into coursess values(6,'DA','Data Science',7);
+delete from Facultyss where faculty_name = 'sakshi pawar' and department='Computer Science';
 rollback;
 
 -- Use a SAVEPOINT:
@@ -84,9 +85,9 @@ rollback;
 -- Commit the transaction
 
 start transaction;
-insert into Students values(8,'Monika','Data Analyst','2022');
+insert into stud values(8,'Monika','Data Analyst','2022');
 savepoint s1;
-insert into Course values(8,'BTech','Data Science',3);
+insert into coursess values(8,'BTech','Data Science',3);
 rollback to s1;
 commit;
 
